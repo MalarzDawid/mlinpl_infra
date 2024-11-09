@@ -86,32 +86,5 @@ for file in "$SOURCE_PATH/sparse"/*; do
     fi
 done
 
-# Resize images if needed
-if [ "$RESIZE" -eq 1 ]; then
-    echo "Copying and resizing..."
-    mkdir -p "$SOURCE_PATH/images_2" "$SOURCE_PATH/images_4" "$SOURCE_PATH/images_8"
-    for file in "$SOURCE_PATH/images"/*; do
-        cp "$file" "$SOURCE_PATH/images_2/"
-        eval "$MAGICK_COMMAND mogrify -resize 50% $SOURCE_PATH/images_2/$(basename "$file")"
-        if [ $? -ne 0 ]; then
-            echo "50% resize failed. Exiting."
-            exit 1
-        fi
-
-        cp "$file" "$SOURCE_PATH/images_4/"
-        eval "$MAGICK_COMMAND mogrify -resize 25% $SOURCE_PATH/images_4/$(basename "$file")"
-        if [ $? -ne 0 ]; then
-            echo "25% resize failed. Exiting."
-            exit 1
-        fi
-
-        cp "$file" "$SOURCE_PATH/images_8/"
-        eval "$MAGICK_COMMAND mogrify -resize 12.5% $SOURCE_PATH/images_8/$(basename "$file")"
-        if [ $? -ne 0 ]; then
-            echo "12.5% resize failed. Exiting."
-            exit 1
-        fi
-    done
-fi
 
 echo "Done."
